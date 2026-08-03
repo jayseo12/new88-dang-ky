@@ -222,10 +222,10 @@
             height: 90px;
         }
 
-        .logo-container img {
-            height: 80px;
-            width: auto;
-            object-fit: contain;
+        .header-logo{
+            height:80px;
+            width:auto;
+            display:block;
             /* In case logo is not loaded, style the alt text */
             color: var(--primary);
             font-family: var(--font-heading);
@@ -1325,8 +1325,8 @@
                         alt="${SITE_CONFIG.brandName} Logo"
                         class="footer-logo">
                 `;
-                                document.getElementById('site-logo').innerHTML = logoHtml;
-                                document.getElementById('footer-logo-container').innerHTML = logoHtml;
+                    document.getElementById("site-logo").innerHTML = headerLogo;
+                    document.getElementById("footer-logo-container").innerHTML = footerLogo;
             } else {
                 // Use text fallback with config brand name
                 const textHtml = `<span style="font-family: 'Montserrat'; font-weight: 800; font-size: 28px; color: var(--primary);">${SITE_CONFIG.brandName}</span>`;
