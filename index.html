@@ -419,41 +419,24 @@
             z-index: 4;
             animation: float 6s ease-in-out infinite reverse;
         }
-
-        .register-box {
-            background: linear-gradient(to bottom, #4a0000 0%, #200 100%);
-            border: 2px solid var(--primary);
-            border-radius: var(--radius-lg);
-            padding: 20px 40px;
-            display: inline-block;
-            margin-bottom: 20px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3), inset 0 0 20px rgba(255, 215, 0, 0.2);
-            position: relative;
+        .hero-cta-image-wrapper{
+            width:100%;
+            max-width:650px;
+            margin:-10px auto 20px;
+            position:relative;
+            z-index:10;
         }
         
-        .register-box::before {
-            content: '';
-            position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: calc(var(--radius-lg) + 2px);
-            background: linear-gradient(45deg, transparent, var(--primary), transparent);
-            z-index: -1;
-            animation: borderGlow 3s linear infinite;
+        .hero-cta-image{
+            width:100%;
+            height:auto;
+            display:block;
+            transition:var(--transition);
         }
-
-        .register-title {
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-            line-height: 1;
+        
+        .hero-cta-image:hover{
+            transform:scale(1.02);
         }
-
-        .register-subtitle {
-            font-size: 1rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
         .hero-cta-big {
             font-size: 1.2rem;
             padding: 15px 40px;
@@ -974,9 +957,6 @@
             .hero {
                 padding-top: 50px;
             }
-            .register-box {
-                padding: 15px 20px;
-            }
         }
     </style>
 </head>
@@ -1043,12 +1023,14 @@
                 </div>
 
                 <!-- CTA Area matching the image -->
-                <div class="register-box">
-                     <a href="#" class="register-title" data-link="register">
-                    <h1 class="register-title text-gradient">ĐĂNG KÝ NGAY</h1>
-                    <p class="register-subtitle">CHO THÀNH VIÊN MỚI</p>
-                 </a>
-                </div>
+                    <div class="hero-cta-image-wrapper">
+                        <a href="#" data-link="register">
+                            <img
+                                id="hero-cta-image"
+                                class="hero-cta-image"
+                                alt="Đăng ký ngay">
+                        </a>
+                    </div>
                 
                 <br>
                 
@@ -1175,6 +1157,7 @@
                 heroImgLeft: "https://winheroes.nl/wp-content/uploads/2026/07/tai-new88.webp",
                 heroImgCenter: "https://winheroes.nl/wp-content/uploads/2026/07/hero-hinh.webp", // Placeholder for dealer
                 heroImgRight: "https://winheroes.nl/wp-content/uploads/2026/07/uu-dai-to-tai-new88.webp",
+                heroCtaImage: "https://ys-plan.jp.net/wp-content/uploads/2026/05/dangky-btn.webp",
                 aboutBanner: "https://winheroes.nl/wp-content/uploads/2026/05/uu-dai-new88-4.png"
             },
 
@@ -1368,6 +1351,8 @@
             if (SITE_CONFIG.assets.heroImgLeft) document.getElementById('hero-img-left').src = SITE_CONFIG.assets.heroImgLeft;
             if (SITE_CONFIG.assets.heroImgCenter) document.getElementById('hero-img-center').src = SITE_CONFIG.assets.heroImgCenter;
             if (SITE_CONFIG.assets.heroImgRight) document.getElementById('hero-img-right').src = SITE_CONFIG.assets.heroImgRight;
+            if (SITE_CONFIG.assets.heroCtaImage) {document.getElementById("hero-cta-image").src = SITE_CONFIG.assets.heroCtaImage;
+}
         }
 
         function renderAbout() {
