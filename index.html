@@ -1310,18 +1310,10 @@
             
             // Replace Logos if images are provided in config
             if (SITE_CONFIG.assets.logo) {
-                const headerLogo = `
-                    <img
-                        src="${SITE_CONFIG.assets.logo}"
-                        alt="${SITE_CONFIG.brandName} Logo"
-                        class="header-logo">
-                `;
-                
-                const footerLogo = `
-                    <img
-                        src="${SITE_CONFIG.assets.logo}"
-                        alt="${SITE_CONFIG.brandName} Logo"
-                        class="footer-logo">
+                    const logoHtml = `
+                        <img src="${SITE_CONFIG.assets.logo}"
+                             alt="${SITE_CONFIG.brandName} Logo">
+                    `;
                                 document.getElementById('site-logo').innerHTML = logoHtml;
                                 document.getElementById('footer-logo-container').innerHTML = logoHtml;
             } else {
