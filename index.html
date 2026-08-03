@@ -223,8 +223,9 @@
         }
 
         .logo-container img {
-            height: 20px;
+            height: 40px; /* Đã tăng kích thước logo từ 20px lên 40px */
             width: auto;
+            object-fit: contain; /* Giữ tỷ lệ logo không bị méo */
             /* In case logo is not loaded, style the alt text */
             color: var(--primary);
             font-family: var(--font-heading);
@@ -977,8 +978,9 @@
 
     <header class="header" id="header">
         <div class="container header-container">
-            <a href="https://winheroes.nl/wp-content/uploads/2026/05/logonew88.png" class="logo-container" id="site-logo">
-               
+            <!-- Đã fix href thành #home để không hiểu lầm là nút tải ảnh -->
+            <a href="#home" class="logo-container" id="site-logo">
+               <!-- Injected via JS -->
             </a>
 
             <nav class="nav-menu" id="desktop-menu">
@@ -1160,6 +1162,7 @@
             
             // Paths to assets - Replace these with actual URLs or relative paths
             assets: {
+                logo: "https://winheroes.nl/wp-content/uploads/2026/05/logonew88.png", // ĐÃ BỔ SUNG KHAI BÁO LOGO MENU VÀO ĐÂY
                 heroBg: "https://winheroes.nl/wp-content/uploads/2026/07/bg-casino.jpg", // Dark background placeholder
                 heroLogo: "https://winheroes.nl/wp-content/uploads/2026/05/logonew88.png", // Large logo in center hero
                 heroImgLeft: "https://winheroes.nl/wp-content/uploads/2026/07/tai-new88.webp",
@@ -1339,39 +1342,43 @@
 
         function renderHero() {
             // Background
-            if(SITE_CONFIG.assets.heroBg) {
-                document.getElementById('home').style.backgroundImage = `url('${SITE_CONFIG.assets.heroBg}')`;
+            if (SITE_CONFIG.assets.heroBg) {
+                document.querySelector('.hero').style.backgroundImage = `url('${SITE_CONFIG.assets.heroBg}')`;
             }
             
-            // Assets
-            if(SITE_CONFIG.assets.heroImgLeft) document.getElementById('hero-img-left').src = SITE_CONFIG.assets.heroImgLeft;
-            if(SITE_CONFIG.assets.heroImgCenter) document.getElementById('hero-img-center').src = SITE_CONFIG.assets.heroImgCenter;
-            if(SITE_CONFIG.assets.heroImgRight) document.getElementById('hero-img-right').src = SITE_CONFIG.assets.heroImgRight;
+            // Subtitle
+            document.getElementById('hero-subtitle').innerText = "THIÊN ĐƯỜNG GIẢI TRÍ TRỰC TUYẾN"; // Optional: Can add to config
+            
+            // Visual Assets
+            if (SITE_CONFIG.assets.heroImgLeft) document.getElementById('hero-img-left').src = SITE_CONFIG.assets.heroImgLeft;
+            if (SITE_CONFIG.assets.heroImgCenter) document.getElementById('hero-img-center').src = SITE_CONFIG.assets.heroImgCenter;
+            if (SITE_CONFIG.assets.heroImgRight) document.getElementById('hero-img-right').src = SITE_CONFIG.assets.heroImgRight;
         }
 
         function renderAbout() {
-            document.getElementById('about-title').textContent = SITE_CONFIG.about.title;
+            document.getElementById('about-title').innerText = SITE_CONFIG.about.title.replace('NEW88', SITE_CONFIG.brandName);
             
             const listHtml = SITE_CONFIG.about.list.map(item => `
                 <div class="info-item">
-                    <i data-lucide="check-circle" class="info-item-icon"></i>
+                    <i data-lucide="check-circle-2" class="info-item-icon"></i>
                     <p><strong>Năm ${item.year}:</strong> ${item.text}</p>
                 </div>
             `).join('');
+            
             document.getElementById('about-list').innerHTML = listHtml;
-
-            if(SITE_CONFIG.assets.aboutBanner) {
+            
+            if (SITE_CONFIG.assets.aboutBanner) {
                 document.getElementById('about-banner').src = SITE_CONFIG.assets.aboutBanner;
             }
             
-            lucide.createIcons({ root: document.getElementById('about-list') });
+            lucide.createIcons();
         }
 
         function renderFAQ() {
             const faqHtml = SITE_CONFIG.faq.map((item, index) => `
                 <div class="faq-item">
                     <button class="faq-header">
-                        <span>${item.q}</span>
+                        ${item.q}
                         <i data-lucide="chevron-down" class="faq-icon"></i>
                     </button>
                     <div class="faq-body">
@@ -1383,83 +1390,83 @@
             `).join('');
             
             document.getElementById('faq-container').innerHTML = faqHtml;
-            lucide.createIcons({ root: document.getElementById('faq-container') });
+            lucide.createIcons();
         }
 
         function renderGames() {
-            const html = SITE_CONFIG.games.map(game => `
-                <div class="article-card reveal">
+            const gamesHtml = SITE_CONFIG.games.map(game => `
+                <article class="article-card">
                     <div class="article-thumb-wrapper">
-                        <img src="${game.img}" alt="${game.title}" class="article-thumb" loading="lazy">
-                        <div class="article-date-badge">${game.badge}</div>
+                        <img src="${game.img}" alt="${game.title}" class="article-thumb">
+                        <span class="article-date-badge">${game.badge}</span>
                     </div>
                     <div class="article-content">
-                        <span style="color: var(--primary); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">${game.category}</span>
+                        <span style="color: var(--primary); font-size: 0.8rem; font-weight: 700; margin-bottom: 5px;">${game.category}</span>
                         <h3 class="article-title">${game.title}</h3>
                         <p class="article-desc">${game.desc}</p>
-                        <a href="${SITE_CONFIG.links[game.link] || '#'}" class="btn btn-primary" style="width: 100%; margin-top: auto; padding: 10px 16px; font-size: 0.85rem; gap: 6px;" data-link="${game.link}">
-                            CHƠI NGAY
-                            <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
-                        </a>
+                        <button class="article-btn" data-link="${game.link}">CHƠI NGAY</button>
                     </div>
-                </div>
+                </article>
             `).join('');
             
-            const container = document.getElementById('games-container');
-            if (container) {
-                container.innerHTML = html;
-                lucide.createIcons({ root: container });
-            }
+            document.getElementById('games-container').innerHTML = gamesHtml;
         }
 
         function renderFooter() {
-            // Desc & Copyright
-            const brandLover = SITE_CONFIG.brandName.toLowerCase();
-            document.getElementById('footer-desc').textContent = SITE_CONFIG.footer.desc.replace('{brand}', SITE_CONFIG.brandName);
-            document.getElementById('footer-copyright').textContent = `© 2026 ${SITE_CONFIG.brandName}. All rights reserved.`;
-
+            const ft = SITE_CONFIG.footer;
+            
+            document.getElementById('footer-desc').innerText = ft.desc;
+            
             // Quick Links
-            const linksHtml = SITE_CONFIG.footer.quickLinks.map(link => `
-                <a href="${SITE_CONFIG.links[link.key] || '#'}">
-                    <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> 
+            const qLinksHtml = ft.quickLinks.map(link => `
+                <a href="#" data-link="${link.key}">
+                    <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
                     ${link.label}
                 </a>
             `).join('');
-            document.getElementById('footer-quick-links').innerHTML = linksHtml;
-
-            // Contact List
-            const contactHtml = SITE_CONFIG.footer.contact.map(c => {
+            document.getElementById('footer-quick-links').innerHTML = qLinksHtml;
+            
+            // Contacts
+            const contactHtml = ft.contact.map(c => {
                 let text = c.text;
-                // Append dynamic domain to website and email
-                if (text.includes('Website:')) text += SITE_CONFIG.links.website;
-                if (text.includes('Email:')) text += `${brandLover}.com`;
-                
+                if (c.icon === 'globe') text += SITE_CONFIG.links.website;
+                if (c.icon === 'mail') text += SITE_CONFIG.links.website.replace('https://', '');
                 return `
                 <div class="contact-item">
                     <i data-lucide="${c.icon}" style="width: 18px; height: 18px;"></i>
                     <span>${text}</span>
                 </div>
-                `
-            }).join('');
+            `}).join('');
             document.getElementById('footer-contact').innerHTML = contactHtml;
-
+            
             // Socials
-            const socialHtml = SITE_CONFIG.footer.social.map(s => `
-                <a href="${SITE_CONFIG.links[s.link] || '#'}" class="social-icon" target="_blank">
+            const socialHtml = ft.social.map(s => `
+                <a href="${SITE_CONFIG.links[s.link] || '#'}" target="_blank" class="social-icon">
                     <i data-lucide="${s.icon}"></i>
                 </a>
             `).join('');
             document.getElementById('social-container').innerHTML = socialHtml;
             
-            lucide.createIcons({ root: document.getElementById('footer') });
+            // Copyright
+            document.getElementById('footer-copyright').innerText = `© 2026 ${SITE_CONFIG.brandName}. All rights reserved.`;
+            
+            lucide.createIcons();
         }
 
-        // Bind logical links avoiding hardcoding in HTML
         function bindActionLinks() {
-            document.querySelectorAll('[data-link]').forEach(el => {
-                const key = el.getAttribute('data-link');
-                if(SITE_CONFIG.links[key]) {
-                    el.href = SITE_CONFIG.links[key];
+            // Apply correct URLs from SITE_CONFIG.links to all elements with data-link attribute
+            const elements = document.querySelectorAll('[data-link]');
+            elements.forEach(el => {
+                const linkKey = el.getAttribute('data-link');
+                const url = SITE_CONFIG.links[linkKey] || '#';
+                
+                if (el.tagName === 'A') {
+                    el.href = url;
+                    el.target = "_blank"; // Open action links in new tab
+                } else if (el.tagName === 'BUTTON') {
+                    el.addEventListener('click', () => {
+                        window.open(url, '_blank');
+                    });
                 }
             });
         }
@@ -1470,71 +1477,75 @@
             const header = document.getElementById('header');
             const reveals = document.querySelectorAll('.reveal');
 
-            const handleScroll = () => {
-                // Header style
+            window.addEventListener('scroll', () => {
+                // Header Sticky
                 if (window.scrollY > 50) {
                     header.classList.add('scrolled');
                 } else {
                     header.classList.remove('scrolled');
                 }
 
-                // Reveal Elements
-                const windowHeight = window.innerHeight;
+                // Scroll Reveal
                 reveals.forEach(reveal => {
+                    const windowHeight = window.innerHeight;
                     const revealTop = reveal.getBoundingClientRect().top;
                     const revealPoint = 100;
+
                     if (revealTop < windowHeight - revealPoint) {
                         reveal.classList.add('active');
                     }
                 });
-            };
-
-            window.addEventListener('scroll', handleScroll);
-            handleScroll(); // Init on load
+            });
+            
+            // Trigger once on load
+            window.dispatchEvent(new Event('scroll'));
         }
 
         function initMobileMenu() {
-            const toggle = document.getElementById('menu-toggle');
-            const nav = document.getElementById('mobile-nav');
-            
-            toggle.addEventListener('click', () => {
-                nav.classList.toggle('active');
-                // Change icon
-                const icon = toggle.querySelector('i');
-                if (nav.classList.contains('active')) {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileLinks = mobileNav.querySelectorAll('.nav-link');
+
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+                
+                // Toggle icon
+                const icon = menuToggle.querySelector('i');
+                if (mobileNav.classList.contains('active')) {
                     icon.setAttribute('data-lucide', 'x');
                 } else {
                     icon.setAttribute('data-lucide', 'menu');
                 }
-                lucide.createIcons({ root: toggle });
+                lucide.createIcons();
             });
 
-            // Close menu on link click
-            nav.querySelectorAll('a').forEach(link => {
+            // Close menu when clicking a link
+            mobileLinks.forEach(link => {
                 link.addEventListener('click', () => {
-                    nav.classList.remove('active');
-                    toggle.querySelector('i').setAttribute('data-lucide', 'menu');
-                    lucide.createIcons({ root: toggle });
+                    mobileNav.classList.remove('active');
+                    menuToggle.querySelector('i').setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
                 });
             });
         }
 
         function initAccordion() {
-            // Event delegation on container
-            document.getElementById('faq-container').addEventListener('click', (e) => {
+            const faqContainer = document.getElementById('faq-container');
+            
+            faqContainer.addEventListener('click', (e) => {
                 const header = e.target.closest('.faq-header');
                 if (!header) return;
-
+                
                 const item = header.parentElement;
-                const isActive = item.classList.contains('active');
                 
-                // Close all others
-                document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
-                
-                // Toggle clicked
-                if (!isActive) {
-                    item.classList.add('active');
+                // Close currently active items (optional - if you want only one open at a time)
+                const activeItem = faqContainer.querySelector('.faq-item.active');
+                if (activeItem && activeItem !== item) {
+                    activeItem.classList.remove('active');
                 }
+                
+                // Toggle clicked item
+                item.classList.toggle('active');
             });
         }
 
@@ -1548,9 +1559,12 @@
                     btn.classList.remove('visible');
                 }
             });
-
+            
             btn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
         }
     </script>
