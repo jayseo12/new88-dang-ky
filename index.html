@@ -740,8 +740,9 @@
         }
 
         .footer-logo {
-            max-width: 50px;
-            margin-bottom: 20px;
+            width:100px;
+            height:auto;
+            display:block;
             filter: drop-shadow(0 0 10px rgba(255,215,0,0.3));
         }
 
@@ -1311,10 +1312,19 @@
             
             // Replace Logos if images are provided in config
             if (SITE_CONFIG.assets.logo) {
-                    const logoHtml = `
-                        <img src="${SITE_CONFIG.assets.logo}"
-                             alt="${SITE_CONFIG.brandName} Logo">
-                    `;
+                const headerLogo = `
+                    <img
+                        src="${SITE_CONFIG.assets.logo}"
+                        alt="${SITE_CONFIG.brandName} Logo"
+                        class="header-logo">
+                `;
+                
+                const footerLogo = `
+                    <img
+                        src="${SITE_CONFIG.assets.logo}"
+                        alt="${SITE_CONFIG.brandName} Logo"
+                        class="footer-logo">
+                `;
                                 document.getElementById('site-logo').innerHTML = logoHtml;
                                 document.getElementById('footer-logo-container').innerHTML = logoHtml;
             } else {
