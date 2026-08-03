@@ -219,13 +219,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 70px;
+            height: 90px;
         }
 
         .logo-container img {
-            height: 40px; /* Đã tăng kích thước logo từ 20px lên 40px */
+            height: 60px;
             width: auto;
-            object-fit: contain; /* Giữ tỷ lệ logo không bị méo */
+            object-fit: contain;
             /* In case logo is not loaded, style the alt text */
             color: var(--primary);
             font-family: var(--font-heading);
@@ -282,7 +282,7 @@
 
         .mobile-nav {
             position: fixed;
-            top: 70px;
+            top: 90px;
             left: -100%;
             width: 100%;
             height: calc(100vh - 70px);
@@ -978,7 +978,6 @@
 
     <header class="header" id="header">
         <div class="container header-container">
-            <!-- Đã fix href thành #home để không hiểu lầm là nút tải ảnh -->
             <a href="#home" class="logo-container" id="site-logo">
                <!-- Injected via JS -->
             </a>
