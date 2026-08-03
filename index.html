@@ -223,7 +223,7 @@
         }
 
         .logo-container img {
-            height: 80px; /* Đã tăng kích thước logo từ 20px lên 40px */
+            height: 40px; /* Đã tăng kích thước logo từ 20px lên 40px */
             width: auto;
             object-fit: contain; /* Giữ tỷ lệ logo không bị méo */
             /* In case logo is not loaded, style the alt text */
@@ -1162,6 +1162,7 @@
             
             // Paths to assets - Replace these with actual URLs or relative paths
             assets: {
+                logo: "https://winheroes.nl/wp-content/uploads/2026/05/logonew88.png", // ĐÃ BỔ SUNG KHAI BÁO LOGO MENU VÀO ĐÂY
                 heroBg: "https://winheroes.nl/wp-content/uploads/2026/07/bg-casino.jpg", // Dark background placeholder
                 heroLogo: "https://winheroes.nl/wp-content/uploads/2026/05/logonew88.png", // Large logo in center hero
                 heroImgLeft: "https://winheroes.nl/wp-content/uploads/2026/07/tai-new88.webp",
@@ -1179,8 +1180,8 @@
             // Centralized Links
             links: {
                 home: "#home",
-                register: "https://tinyurl.com/pagedev-new88-dang-nhap",
-                login: "https://tinyurl.com/pagedev-new88-dang-nhap",
+                register: "https://example.com/register",
+                login: "https://example.com/login",
                 telegram: "https://t.me/new88",
                 facebook: "https://facebook.com",
                 zalo: "https://zalo.me",
@@ -1393,21 +1394,31 @@
         }
 
         function renderGames() {
-            const gamesHtml = SITE_CONFIG.games.map(game => `
+            const gamesHtml = SITE_CONFIG.games.map(game => {
+                const gameUrl = (typeof game.link === 'string' && game.link.startsWith('http'))
+                    ? game.link
+                    : (SITE_CONFIG.links[game.link] || '#');
+
+                return `
                 <article class="article-card">
                     <div class="article-thumb-wrapper">
                         <img src="${game.img}" alt="${game.title}" class="article-thumb">
                         <span class="article-date-badge">${game.badge}</span>
                     </div>
                     <div class="article-content">
-                        <span style="color: var(--primary); font-size: 0.8rem; font-weight: 700; margin-bottom: 5px;">${game.category}</span>
+                        <span style="color: var(--primary); font-size: 0.8rem; font-weight:700; margin-bottom:5px;">${game.category}</span>
                         <h3 class="article-title">${game.title}</h3>
                         <p class="article-desc">${game.desc}</p>
-                        <button class="article-btn" data-link="${game.link}">CHƠI NGAY</button>
+                        <a class="article-btn"
+                           href="${gameUrl}"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                           CHƠI NGAY
+                        </a>
                     </div>
-                </article>
-            `).join('');
-            
+                </article>`;
+            }).join('');
+
             document.getElementById('games-container').innerHTML = gamesHtml;
         }
 
