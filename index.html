@@ -1310,9 +1310,20 @@
             
             // Replace Logos if images are provided in config
             if (SITE_CONFIG.assets.logo) {
-                const logoHtml = `<img src="${SITE_CONFIG.assets.logo}" alt="${SITE_CONFIG.brandName} Logo">`;
-                document.getElementById('site-logo').innerHTML = logoHtml;
-                document.getElementById('footer-logo-container').innerHTML = logoHtml;
+                const headerLogo = `
+                    <img
+                        src="${SITE_CONFIG.assets.logo}"
+                        alt="${SITE_CONFIG.brandName} Logo"
+                        class="header-logo">
+                `;
+                
+                const footerLogo = `
+                    <img
+                        src="${SITE_CONFIG.assets.logo}"
+                        alt="${SITE_CONFIG.brandName} Logo"
+                        class="footer-logo">
+                                document.getElementById('site-logo').innerHTML = logoHtml;
+                                document.getElementById('footer-logo-container').innerHTML = logoHtml;
             } else {
                 // Use text fallback with config brand name
                 const textHtml = `<span style="font-family: 'Montserrat'; font-weight: 800; font-size: 28px; color: var(--primary);">${SITE_CONFIG.brandName}</span>`;
