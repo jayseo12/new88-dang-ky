@@ -1021,7 +1021,7 @@
             <div class="container hero-content-wrapper">
                 
                 <!-- Main Logo in Hero -->
-                <img src="" alt="Brand Logo Large" class="hero-logo-large" id="hero-logo-large" onerror="this.style.display='none'">
+                <img alt="Brand Logo Large" class="hero-logo-large" id="hero-logo-large" >
                 
                 <h2 class="hero-subtitle-top text-gradient" id="hero-subtitle">THIÊN ĐƯỜNG GIẢI TRÍ TRỰC TUYẾN</h2>
                 
@@ -1337,14 +1337,10 @@
             }
 
             // Central Hero Logo
-            const heroLogoEl = document.getElementById('hero-logo-large');
-            if (SITE_CONFIG.assets.heroLogo) {
-                heroLogoEl.src = SITE_CONFIG.assets.heroLogo;
-            } else if (SITE_CONFIG.assets.logo) {
-                 heroLogoEl.src = SITE_CONFIG.assets.logo;
-            } else {
-                heroLogoEl.style.display = 'none'; // Hide if no image provided
-            }
+            const heroLogoEl = document.getElementById("hero-logo-large");
+            
+            heroLogoEl.src = SITE_CONFIG.assets.heroLogo || SITE_CONFIG.assets.logo;
+            heroLogoEl.style.display = "block";
         }
 
         function renderNavigation() {
