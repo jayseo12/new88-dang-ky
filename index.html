@@ -200,20 +200,23 @@
 
         .header {
             position: fixed;
-            top: 0;
+            top: -100px; 
             left: 0;
             width: 100%;
             z-index: 1000;
             background: rgba(17, 9, 9, 0.9);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: var(--transition);
+            transition: top .35s ease;
         }
 
         .header.scrolled {
             padding: 10px 0;
             box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
+        .header.show {
+                top: 0;
+            }
 
         .header-container {
             display: flex;
@@ -1501,11 +1504,17 @@
 
             window.addEventListener('scroll', () => {
                 // Header Sticky
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
+            if (window.scrollY > 50) {
+            
+                header.classList.add("show");
+                header.classList.add("scrolled");
+            
+            } else {
+            
+                header.classList.remove("show");
+                header.classList.remove("scrolled");
+            
+            }
 
                 // Scroll Reveal
                 reveals.forEach(reveal => {
